@@ -1,0 +1,63 @@
+resources:
+  - key: issue-ui
+    path: src/index.jsx
+  - key: global-ui
+    path: src/global.jsx
+  - key: portal-ui
+    path: src/portal.jsx
+  - key: portal-header-ui
+    path: src/portal-header.jsx
+modules:
+  jira:issuePanel:
+    - key: issue-translator-panel
+      resource: issue-ui
+      render: native
+      resolver:
+        function: translator-resolver
+      title: Issue Translator
+      description: Translate issue content on demand
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  jira:globalPage:
+    - key: issue-translator-global
+      resource: global-ui
+      render: native
+      resolver:
+        function: translator-resolver
+      title: Issue Translator
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+      topNavigation: true
+  jira:projectPage:
+    - key: issue-translator-project
+      resource: global-ui
+      render: native
+      resolver:
+        function: translator-resolver
+      title: Issue Translator
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+      layout: basic
+  jiraServiceManagement:portalRequestViewAction:
+    - key: issue-translator-request-action
+      resource: portal-ui
+      render: native
+      resolver:
+        function: translator-resolver
+      title: Issue Translator
+  jiraServiceManagement:portalHeader:
+    - key: issue-translator-portal-header
+      resource: portal-header-ui
+      render: native
+      title: Issue Translator
+  function:
+    - key: translator-resolver
+      handler: backend/resolver.handler
+app:
+  id: ari:cloud:ecosystem::app/2c404730-2bdf-4735-a262-df59629ea4a3
+  runtime:
+    name: nodejs20.x
+permissions:
+  scopes:
+    - read:jira-work
+  external:
+    fetch:
+      backend:
+        - address: https://api.cognitive.microsofttranslator.com
